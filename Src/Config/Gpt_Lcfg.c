@@ -25,7 +25,7 @@
 available options:
 
     timer: GPT_Timer# / GPT_WTimer# --> Where # is replaced by a number from 0 to 5
-    mode: Gpt_Periodic / Gpt_OneShot
+    mode: Periodic_Mode / OneShot_Mode
 
 Note: When Adding/Removing configuration to gpt_config array DO NOT FORGET to update TIMERS_ACTIVATED in Gpt_Cfg.h
 */
@@ -33,7 +33,7 @@ GPT_ConfigType gpt_config[TIMERS_ACTIVATED] =
 {
          
     {GPT_Timer1,    //timer 
-    Gpt_Periodic    // Mode
+    Periodic_Mode    // Mode
     },
 };
 

@@ -37,8 +37,8 @@ Gpt_Notification FunctionArray[12] = {NULL};
 void Gpt_Init()
 {
 
-    uint8 i;
-    uint32 timerBase = 0;
+
+    uint32 i, timerBase = 0;
 
     for (i = 0; i < TIMERS_ACTIVATED; i++)
     {
@@ -49,10 +49,10 @@ void Gpt_Init()
         Timer_GPTMTAMR(timerBase) &= ~(1u << 4u); // selecting countdown mode
 
         // selecting timer mode
-        if (gpt_config[i].TimerMode == Gpt_OneShot){
+        if (gpt_config[i].TimerMode == OneShot_Mode){
             Timer_GPTMTAMR(timerBase) |= 1u << 0u;
         }
-        else if (gpt_config[i].TimerMode == Gpt_Periodic){
+        else if (gpt_config[i].TimerMode == Periodic_Mode){
             Timer_GPTMTAMR(timerBase) |= 1u << 1u;
         }
     }

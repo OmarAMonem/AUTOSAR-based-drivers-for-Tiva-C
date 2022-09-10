@@ -24,8 +24,8 @@
 // defining types of timer counting
 typedef enum
 {
-    Gpt_OneShot = 1u,
-    Gpt_Periodic = 2u
+    OneShot_Mode = 1u,
+    Periodic_Mode = 2u
 } Gpt_Mode;
 
 typedef void (*Gpt_Notification)();
