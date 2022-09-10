@@ -67,13 +67,13 @@ void Port_Init(){
         // set pin internal attach
         if (Port_Config[i].internalAttach != Port_Default_Resistance){
             regOffset = Port_Config[i].internalAttach;
-            *((uint32 *)(portBase + regOffset)) = 1 << bitOffset;
+            *((volatile uint32 *)(portBase + regOffset)) = 1 << bitOffset;
         }
 
         // set output driving current
         if (Port_Config[i].outputcurrent != Port_Current_Default){
             regOffset = Port_Config[i].outputcurrent;
-            *((uint32 *)(portBase + regOffset)) = 1 << bitOffset;
+            *((volatile uint32 *)(portBase + regOffset)) = 1 << bitOffset;
         }
     }
 }
