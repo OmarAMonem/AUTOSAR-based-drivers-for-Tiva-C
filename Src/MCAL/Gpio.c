@@ -202,7 +202,7 @@ void Gpio_InterruptsIn(Pin_Type PinId, Interrupt_TriggerLevelType level, Interru
 }
 
 
-
+// interrupt handler for GPIOF
 void GPIOF_Handler()
 {
     callbacksArray[5]();
