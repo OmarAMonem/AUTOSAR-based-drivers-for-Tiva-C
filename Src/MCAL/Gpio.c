@@ -143,7 +143,7 @@ void Gpio_FlipPin(Pin_Type PinId){
 
 /******************************************************************************
  * \Syntax          : void Gpio_InterruptsIn(Pin_Type PinId, Interrupt_TriggerLevelType level, Interrupt_Notification callbackPtr)
- * \Description     : enable external interrupt for a GPIO channel with edge or level detection
+ * \Description     : external interrupt for a GPIO Pin
  * 
  * \Sync\Async      : Synchronous
  * \Reentrancy      : Non Reentrant
