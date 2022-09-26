@@ -29,7 +29,7 @@
 #define PRI_Group	    xxy
 
 
-#define INTERRUPTs_ACTIVATED	1u  // define the number of activated Interrupts in Nvic_Config in Nvic_Lcfg.c file
+#define INTERRUPTs_ACTIVATED	2u  // define the number of activated Interrupts in Nvic_Config in Nvic_Lcfg.c file
 
 
 /**********************************************************************************************************************

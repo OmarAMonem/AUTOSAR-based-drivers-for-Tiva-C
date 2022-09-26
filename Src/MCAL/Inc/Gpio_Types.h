@@ -122,6 +122,17 @@ typedef enum
     Gpio_HIGH = 1u
 } Gpio_LevelType;
 
+typedef enum
+{
+    LowLevelTrigger,
+    HighLevelTrigger,
+    RisingEdgeTrigger,
+    FallingEdgeTrigger,
+    BothEdgesTrigger
+} Interrupt_TriggerLevelType;
+
+typedef void (*Interrupt_Notification)();
+
 
 #endif /* GPIO_TYPES_h */
 

@@ -37,6 +37,11 @@ const NVIC_ConfigType NVIC_Cofig[INTERRUPTs_ACTIVATED]=
 		1u,							// group priority
 		0u							// subgroup priority
 	},
+	{
+		NVIC_GPIO_PORT_F,
+		0u,
+		0u
+	},
 
 };
 /**********************************************************************************************************************

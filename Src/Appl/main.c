@@ -4,14 +4,16 @@
 #include "Blink.h"
 
 /**********************************************************************************************************************
- *  MAin Function
+ *  Main Function
  *********************************************************************************************************************/
-	uint8 onTime = 3;
-	uint8 offTime = 1;
+void blink();
+
+uint8 onTime = 3;
+uint8 offTime = 1;
 
 int main(){
 
-	blink_Init(onTime, offTime);
+	blink_Init(onTime, offTime, blink);
 
 	blink_Start();
 	

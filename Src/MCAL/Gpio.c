@@ -18,6 +18,11 @@
 #include "Port_Cfg.h"
 
 /**********************************************************************************************************************
+ *  GLOBAL DATA
+ *********************************************************************************************************************/
+Interrupt_Notification callbacksArray[6] = {NULL};
+
+/**********************************************************************************************************************
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
@@ -135,6 +140,74 @@ void Gpio_FlipPin(Pin_Type PinId){
     GPIODATA(portBase) ^= (1 << bitOffset);
     
 }
+
+/******************************************************************************
+ * \Syntax          : void Gpio_InterruptsIn(Pin_Type PinId, Interrupt_TriggerLevelType level, Interrupt_Notification callbackPtr)
+ * \Description     : enable external interrupt for a GPIO channel with edge or level detection
+ * 
+ * \Sync\Async      : Synchronous
+ * \Reentrancy      : Non Reentrant
+ * 
+ * \Parameters (in) : Pin_Type                       the Pin requred to enable interrupt
+ *                  : Interrupt_TriggerLevelType     the level to trigger interrupt
+ *                  : Interrupt_Notification         Pointer to callback function 
+ * 
+ * \Parameters (out): None
+ * \Return value:   : None
+ *******************************************************************************/
+void Gpio_InterruptsIn(Pin_Type PinId, Interrupt_TriggerLevelType level, Interrupt_Notification callbackPtr)
+{
+    uint32 bitOffset = (PinId & 0xf);                   //fetch the required pin
+    uint32 portBase = (0x40000000u | (PinId >> 4u));    //fetch the required Port
+
+    //interrupt level trigger 
+    if(level == HighLevelTrigger){
+        GPIOIS(portBase) |= 1 << bitOffset;
+        GPIOIEV(portBase) |= 1 << bitOffset;
+    }else if(level == LowLevelTrigger){
+        GPIOIS(portBase) |= 1 << bitOffset;
+        GPIOIEV(portBase) &= ~(1 << bitOffset);
+     }else if(level == BothEdgesTrigger){
+        GPIOIS(portBase) &= ~(1 << bitOffset);
+        GPIOIBE(portBase) |= 1 << bitOffset;
+    }else if (level == RisingEdgeTrigger){
+        GPIOIS(portBase) &= ~(1 << bitOffset);
+        GPIOIBE(portBase) &= ~(1 << bitOffset);
+        GPIOIEV(portBase) |= 1 << bitOffset;
+    }else if(level == FallingEdgeTrigger){
+        GPIOIS(portBase) &= ~(1 << bitOffset);
+        GPIOIBE(portBase) &= ~(1 << bitOffset);
+        GPIOIEV(portBase) &= ~(1 << bitOffset);
+    }
+    
+
+    //set callback
+    if((PinId > Pin_A0) && (PinId < Pin_A7)){
+        callbacksArray[0] = callbackPtr;
+    }else if((PinId > Pin_B0) && (PinId < Pin_B7)){
+        callbacksArray[1] = callbackPtr;
+    }else if((PinId > Pin_C0) && (PinId < Pin_C7)){
+        callbacksArray[2] = callbackPtr;
+    }else if((PinId > Pin_D0) && (PinId < Pin_D7)){
+        callbacksArray[3] = callbackPtr;
+    }else if((PinId > Pin_E0) && (PinId < Pin_E7)){
+        callbacksArray[4] = callbackPtr;
+    }else if((PinId > Pin_F0) && (PinId < Pin_F7)){
+        callbacksArray[5] = callbackPtr;
+    }
+    
+    
+    GPIOICR(portBase) |= 1 << bitOffset;    //clear interrupt flag
+    GPIOIM(portBase) |= 1 << bitOffset;     //enable the interrupt
+}
+
+
+
+void GPIOF_Handler()
+{
+    callbacksArray[5]();
+}
+
 /**********************************************************************************************************************
  *  END OF FILE: Gpio.c 
  *********************************************************************************************************************/

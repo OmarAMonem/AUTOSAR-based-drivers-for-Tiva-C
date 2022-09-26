@@ -26,10 +26,11 @@
  *********************************************************************************************************************/
 uint8 off_Time;
 uint8 on_Time;
+
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
-extern void blink(void);
+void SetBlinkPeriods(void);
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTIONS
@@ -60,7 +61,7 @@ void blink_Start(){
  * \Parameters (out): none
  * \Return value:   : none
  *******************************************************************************/
-void blink_Init(uint8 on_T, uint8 off_T){
+void blink_Init(uint8 on_T, uint8 off_T, Gpt_Notification CallBackFunction){
 
     off_Time = off_T;
     on_Time = on_T;
@@ -68,8 +69,36 @@ void blink_Init(uint8 on_T, uint8 off_T){
 	SysCtrl_Init(); 							//enable clock
 	Port_Init();    							//initialize Port
 	Gpt_Init();     							//initialize General Purpose Timer
-	Gpt_EnableNotification(GPT_Timer1, blink); 	//enable Inturupt callback function with a user defined function
+	Gpt_EnableNotification(GPT_Timer1, CallBackFunction); 	//enable Inturupt callback function with a user defined function
+	Gpio_InterruptsIn(Pin_F0, RisingEdgeTrigger, SetBlinkPeriods);
+	Gpio_InterruptsIn(Pin_F4, RisingEdgeTrigger, SetBlinkPeriods);
 
+}
+
+/******************************************************************************
+ * \Syntax          : void SetBlinkPeriods(void)
+ * \Description     : Gpio interrupt to increase and decrease the blinking periods
+ *
+ * \Sync\Async      : Synchronous
+ * \Reentrancy      : Non Reentrant
+ * \Parameters (in) : none
+ * \Parameters (out): none
+ * \Return value:   : none
+ *******************************************************************************/
+void SetBlinkPeriods(void){
+	// checking the interrupt pin
+	if (( (GPIOMIS(0x40000000u | (0x250004 >> 4)) & (1 << 4)) >> 4) == 1){
+		GPIOICR(0x40000000u | (0x250004 >> 4)) |= 1 << 4; 		// clear interrupt status flag
+		
+		on_Time++;				  								// increasing the on time period
+		off_Time--;				  								// decreasing the off time period
+	}
+	else if (( (GPIOMIS(0x40000000u | (0x250000 >> 4u)) & (1 << 0)) >> 0) == 1){
+		GPIOICR(0x40000000u | (0x250000 >> 4)) |= 1 << 0; 
+		
+		off_Time++;
+		on_Time--;
+	}
 }
 
 /**********************************************************************************************************************

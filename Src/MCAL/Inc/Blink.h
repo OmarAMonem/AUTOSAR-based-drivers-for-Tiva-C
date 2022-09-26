@@ -23,7 +23,7 @@
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
-extern void blink_Init(uint8 on_T, uint8 off_T);
+extern void blink_Init(uint8 on_T, uint8 off_T, Gpt_Notification CallBackFunction);
 extern void blink_start();
 
 #endif /* BLINK_H */

@@ -23,6 +23,8 @@ extern void Port_Init(void);
 extern Gpio_LevelType Gpio_ReadPin(Pin_Type PinId);
 extern void Gpio_WritePin(Pin_Type PinId, Gpio_LevelType Level);
 extern void Gpio_FlipPin(Pin_Type PinId);
+void Gpio_InterruptsIn(Pin_Type PinId, Interrupt_TriggerLevelType level, Interrupt_Notification callbackPtr);
+
 
 #endif /* GPIO_H */ 
 

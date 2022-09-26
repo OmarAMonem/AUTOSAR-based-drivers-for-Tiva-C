@@ -57,8 +57,8 @@
 #define    NVIC_ANALOG_COMPARATOR_0 25
 #define    NVIC_ANALOG_COMPARATOR_1 26
 #define    NVIC_SYSTEM_CONTROL  28
-#define    NVIC_FLASH_EEPROM_MEMORY_CONTROL 27
-#define   NVIC_GPIO_PORT_F      28
+#define    NVIC_FLASH_EEPROM_MEMORY_CONTROL 29
+#define    NVIC_GPIO_PORT_F     30
 #define    NVIC_UART_2          33
 #define    NVIC_SSI_1           34
 #define    NVIC_16_32_TIMER_3_A 35
