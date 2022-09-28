@@ -8,12 +8,10 @@
  *********************************************************************************************************************/
 void blink();
 
-uint8 onTime = 3;
-uint8 offTime = 1;
 
 int main(){
 
-	blink_Init(onTime, offTime, blink);
+	blink_Init(3, 3, blink); // on time, off time, call-back function
 
 	blink_Start();
 	
@@ -24,11 +22,11 @@ void blink(){
 	
 	if (Gpio_ReadPin(Pin_F2) == Gpio_LOW){
 		Gpio_FlipPin(Pin_F2);
-		Gpt_StartTimer(GPT_Timer1, onTime);
+		Gpt_StartTimer(GPT_Timer1, on_Time);
 	}
 	else{
 		Gpio_FlipPin(Pin_F2);
-		Gpt_StartTimer(GPT_Timer1, offTime);
+		Gpt_StartTimer(GPT_Timer1, off_Time);
 	}
 }
 

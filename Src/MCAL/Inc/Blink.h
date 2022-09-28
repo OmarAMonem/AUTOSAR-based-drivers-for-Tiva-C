@@ -25,6 +25,8 @@
  *********************************************************************************************************************/
 extern void blink_Init(uint8 on_T, uint8 off_T, Gpt_Notification CallBackFunction);
 extern void blink_start();
+extern uint8 on_Time;
+extern uint8 off_Time;
 
 #endif /* BLINK_H */
 

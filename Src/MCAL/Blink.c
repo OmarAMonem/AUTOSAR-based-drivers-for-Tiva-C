@@ -63,15 +63,15 @@ void blink_Start(){
  *******************************************************************************/
 void blink_Init(uint8 on_T, uint8 off_T, Gpt_Notification CallBackFunction){
 
-    off_Time = off_T;
-    on_Time = on_T;
-    Nvic_Init(); 								//initialize Interrupt
+  off_Time = off_T;
+  on_Time = on_T;
+  Nvic_Init(); 									//initialize Interrupt
 	SysCtrl_Init(); 							//enable clock
 	Port_Init();    							//initialize Port
 	Gpt_Init();     							//initialize General Purpose Timer
 	Gpt_EnableNotification(GPT_Timer1, CallBackFunction); 	//enable Inturupt callback function with a user defined function
-	Gpio_InterruptsIn(Pin_F0, RisingEdgeTrigger, SetBlinkPeriods);
-	Gpio_InterruptsIn(Pin_F4, RisingEdgeTrigger, SetBlinkPeriods);
+	Gpio_InterruptsIn(Pin_F0, FallingEdgeTrigger, SetBlinkPeriods);
+	Gpio_InterruptsIn(Pin_F4, FallingEdgeTrigger, SetBlinkPeriods);
 
 }
 
@@ -91,13 +91,14 @@ void SetBlinkPeriods(void){
 		GPIOICR(0x40000000u | (0x250004 >> 4)) |= 1 << 4; 		// clear interrupt status flag
 		
 		on_Time++;				  								// increasing the on time period
-		off_Time--;				  								// decreasing the off time period
+		if(off_Time > 1){off_Time--;}			// decreasing the off time period
+					  								
 	}
 	else if (( (GPIOMIS(0x40000000u | (0x250000 >> 4u)) & (1 << 0)) >> 0) == 1){
 		GPIOICR(0x40000000u | (0x250000 >> 4)) |= 1 << 0; 
 		
 		off_Time++;
-		on_Time--;
+		if(on_Time > 1){on_Time--;}
 	}
 }
 
